@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>完整塔罗牌占卜 - 78张牌全收录</title>
+    <title>完整塔罗牌占卜 - 优化版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -34,14 +35,14 @@
         }
 
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             color: #d4af37;
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.8;
             max-width: 600px;
             margin: 0 auto;
@@ -59,8 +60,8 @@
             background: linear-gradient(to bottom right, #9d4edd, #560bad);
             color: white;
             border: none;
-            padding: 25px 60px;
-            font-size: 1.8rem;
+            padding: 20px 50px;
+            font-size: 1.6rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.4s ease;
@@ -115,7 +116,7 @@
         }
 
         .shuffle-text {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #d4af37;
             animation: pulse 1.5s infinite;
         }
@@ -137,26 +138,27 @@
         }
 
         .instruction {
-            font-size: 1.3rem;
-            margin-bottom: 40px;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
             color: #b8b8ff;
         }
 
         .cards-container {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 25px;
             flex-wrap: wrap;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         /* 卡牌样式 - 背面 */
         .tarot-card {
-            width: 220px;
-            height: 340px;
+            width: 260px;
+            height: 420px; /* 调整整体高度 */
             perspective: 1000px;
             cursor: pointer;
             transition: transform 0.3s;
+            margin-bottom: 20px;
         }
 
         .tarot-card:hover {
@@ -208,7 +210,7 @@
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.7);
         }
 
-        /* 卡牌正面 */
+        /* 卡牌正面 - 优化布局 */
         .card-front {
             background: white;
             color: #333;
@@ -217,47 +219,73 @@
             flex-direction: column;
         }
 
-        .card-image {
-            height: 75%;
-            background-size: cover;
-            background-position: center;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+        .card-image-container {
+            height: 85%; /* 增加图片区域比例 */
             background-color: #f5f5f5;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
+            border-bottom: 1px solid #eee;
         }
 
-        .card-image img {
+        .card-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        /* 逆位时图片旋转180度 */
+        .card-image.reversed {
+            transform: rotate(180deg);
         }
 
         .card-info {
-            padding: 15px;
-            height: 25%;
+            padding: 12px 10px;
+            height: 15%; /* 减少文字区域比例到15% */
             display: flex;
             flex-direction: column;
             justify-content: center;
+            overflow: hidden; /* 隐藏溢出内容 */
         }
 
         .card-name {
             font-weight: bold;
             font-size: 1.2rem;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             color: #1a1a2e;
+            text-align: center;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-suit {
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 6px;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-orientation-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 4px;
         }
 
         .card-orientation {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             padding: 3px 10px;
-            border-radius: 20px;
+            border-radius: 15px;
             display: inline-block;
             width: fit-content;
-            margin: 0 auto 8px;
         }
 
         .upright {
@@ -271,16 +299,22 @@
         }
 
         .card-position {
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* 解读区域 */
         .interpretation {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
-            padding: 25px;
-            margin: 40px auto;
+            padding: 20px;
+            margin: 30px auto;
             max-width: 900px;
             text-align: left;
             border-left: 5px solid #d4af37;
@@ -292,6 +326,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.4rem;
         }
 
         .meanings {
@@ -311,6 +346,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 1.1rem;
         }
 
         /* 重置按钮 */
@@ -319,7 +355,7 @@
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 15px 40px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -370,44 +406,23 @@
             text-align: center;
         }
 
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .cards-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .draw-btn {
-                padding: 20px 40px;
-                font-size: 1.5rem;
-            }
-            
-            .tarot-card {
-                width: 200px;
-                height: 310px;
-            }
-        }
-        
         /* 占卜类型选择 */
         .spread-options {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin-top: 20px;
             flex-wrap: wrap;
         }
         
         .spread-option {
             background: rgba(255, 255, 255, 0.05);
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
             border: 1px solid transparent;
+            min-width: 150px;
         }
         
         .spread-option:hover {
@@ -421,65 +436,13 @@
         }
         
         .spread-option h3 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 5px;
         }
         
         .spread-option p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        /* 加载状态 */
-        .loading {
-            text-align: center;
-            padding: 30px;
-        }
-        
-        .spinner {
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-top: 5px solid #d4af37;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* 图片占位符 */
-        .placeholder-image {
-            width: 80%;
-            height: 80%;
-            background: linear-gradient(45deg, #f5f5f5 25%, #e0e0e0 25%, #e0e0e0 50%, #f5f5f5 50%, #f5f5f5 75%, #e0e0e0 75%, #e0e0e0);
-            background-size: 20px 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 10px;
-        }
-        
-        /* 牌面图片样式 */
-        .card-img-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #666;
             font-size: 0.8rem;
-            text-align: center;
-            padding: 10px;
+            opacity: 0.8;
         }
         
         /* 进度条 */
@@ -497,12 +460,135 @@
             width: 0%;
             transition: width 0.5s ease;
         }
-        
-        /* 牌面信息 */
-        .card-suit {
-            font-size: 0.8rem;
-            color: #888;
-            margin-top: 2px;
+
+        /* 图片占位符 */
+        .card-img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #666;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .card-img-placeholder i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #999;
+        }
+
+        .card-img-placeholder div {
+            margin-bottom: 5px;
+        }
+
+        /* 响应式设计 - 手机端 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .draw-btn {
+                padding: 15px 30px;
+                font-size: 1.3rem;
+            }
+            
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .tarot-card {
+                width: 300px;
+                height: 450px;
+            }
+            
+            .card-image-container {
+                height: 85%;
+            }
+            
+            .card-info {
+                height: 15%;
+                padding: 10px 8px;
+            }
+            
+            .card-name {
+                font-size: 1.3rem;
+            }
+            
+            .card-suit {
+                font-size: 0.9rem;
+            }
+            
+            .interpretation {
+                padding: 15px;
+                margin: 20px auto;
+            }
+            
+            .interpretation h3 {
+                font-size: 1.2rem;
+            }
+            
+            .spread-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .spread-option {
+                width: 90%;
+                max-width: 300px;
+            }
+            
+            .shuffle-cards {
+                height: 150px;
+            }
+            
+            .card-shuffle {
+                width: 100px;
+                height: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tarot-card {
+                width: 280px;
+                height: 420px;
+            }
+            
+            .card-name {
+                font-size: 1.2rem;
+            }
+            
+            .shuffle-text {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .tarot-card {
+                width: 260px;
+                height: 400px;
+            }
+            
+            .card-name {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -2054,23 +2140,30 @@
                 else if (card.suit === "pentacles") suitDisplay = "星币";
                 else if (card.suit === "major") suitDisplay = "大阿卡那";
                 
+                // 构建卡牌HTML - 优化文字显示
                 cardElement.innerHTML = `
                     <div class="card-inner">
                         <div class="card-back">
                             <div class="hexagram"></div>
                         </div>
                         <div class="card-front">
-                            <div class="card-image">
+                            <div class="card-image-container">
                                 ${card.image ? 
-                                    `<img src="${card.image}" alt="${card.name}" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'card-img-placeholder\\'><i class=\\"fas fa-image\\" style=\\"font-size:2rem; margin-bottom:10px;\\"></i><div>${card.name}</div><div style=\\"font-size:0.7rem; margin-top:5px;\\">${suitDisplay}</div></div>';" />` : 
-                                    `<div class="card-img-placeholder"><i class="fas fa-image" style="font-size:2rem; margin-bottom:10px;"></i><div>${card.name}</div><div style="font-size:0.7rem; margin-top:5px;">${suitDisplay}</div></div>`
+                                    `<img src="${card.image}" alt="${card.name}" class="card-image ${card.orientation === 'reversed' ? 'reversed' : ''}">` : 
+                                    `<div class="card-img-placeholder">
+                                        <i class="fas fa-image"></i>
+                                        <div>${card.name}</div>
+                                        <div>${suitDisplay}</div>
+                                    </div>`
                                 }
                             </div>
                             <div class="card-info">
                                 <div class="card-name">${card.name}</div>
                                 <div class="card-suit">${suitDisplay}</div>
-                                <div class="card-orientation ${card.orientation}">
-                                    ${card.orientation === 'upright' ? '正位' : '逆位'}
+                                <div class="card-orientation-container">
+                                    <div class="card-orientation ${card.orientation}">
+                                        ${card.orientation === 'upright' ? '正位' : '逆位'}
+                                    </div>
                                 </div>
                                 <div class="card-position">${position}</div>
                             </div>
